@@ -9,16 +9,23 @@ const DEFAULT_SITE_URL = 'https://hereandmore.com'
 /**
  * Resolve the canonical origin from the environment.
  *
- * `??` is deliberately not used here: a host that defines NEXT_PUBLIC_SITE_URL but leaves
- * it blank yields '', which is not nullish, so the fallback never fires and every
- * canonical, sitemap entry and JSON-LD @id is built from an empty string. That is not a
- * loud failure — it is a site that deploys with silently broken metadata.
+ * Read server-side only. Every consumer — metadata, JSON-LD, sitemap, robots, OG images —
+ * runs on the server or at build time, so the browser never needs this and there is no
+ * reason to ship it there. Prefer the unprefixed SITE_URL; NEXT_PUBLIC_SITE_URL is still
+ * honoured so an existing deployment keeps working, but it is the legacy spelling and
+ * exposes the value to the client bundle for no benefit.
  *
- * Only NEXT_PUBLIC_* is read. This module is imported by client components, and anything
- * else would be inlined on the server but undefined in the browser bundle.
+ * In the browser both reads are undefined and this falls back to DEFAULT_SITE_URL, which
+ * is the production origin — so a client component that ever does reach for it still gets
+ * the right answer in production.
+ *
+ * `??` is deliberately not used: a host that defines the variable but leaves it blank
+ * yields '', which is not nullish, so the fallback would never fire and every canonical,
+ * sitemap entry and JSON-LD @id would be built from an empty string. That is not a loud
+ * failure — it is a site that deploys with silently broken metadata.
  */
 function resolveSiteUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim()
+  const raw = (process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL)?.trim()
   if (!raw) return DEFAULT_SITE_URL
 
   // Tolerate a bare host ("hereandmore.com"), which is the usual way this is mistyped.
