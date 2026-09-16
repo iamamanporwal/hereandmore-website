@@ -3,7 +3,36 @@
  * Changing a name or URL here changes it in metadata, JSON-LD, sitemap and nav at once.
  */
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hereandmore.com').replace(/\/$/, '')
+/** The origin used when nothing usable is configured. */
+const DEFAULT_SITE_URL = 'https://hereandmore.com'
+
+/**
+ * Resolve the canonical origin from the environment.
+ *
+ * `??` is deliberately not used here: a host that defines NEXT_PUBLIC_SITE_URL but leaves
+ * it blank yields '', which is not nullish, so the fallback never fires and every
+ * canonical, sitemap entry and JSON-LD @id is built from an empty string. That is not a
+ * loud failure — it is a site that deploys with silently broken metadata.
+ *
+ * Only NEXT_PUBLIC_* is read. This module is imported by client components, and anything
+ * else would be inlined on the server but undefined in the browser bundle.
+ */
+function resolveSiteUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim()
+  if (!raw) return DEFAULT_SITE_URL
+
+  // Tolerate a bare host ("hereandmore.com"), which is the usual way this is mistyped.
+  const candidate = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`
+
+  try {
+    const { origin } = new URL(candidate)
+    return origin
+  } catch {
+    return DEFAULT_SITE_URL
+  }
+}
+
+export const SITE_URL = resolveSiteUrl()
 
 export const site = {
   /** Entity name. Used verbatim everywhere — never abbreviated, never pluralised. */
