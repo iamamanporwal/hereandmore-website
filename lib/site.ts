@@ -25,7 +25,10 @@ const DEFAULT_SITE_URL = 'https://hereandmore.com'
  * failure — it is a site that deploys with silently broken metadata.
  */
 function resolveSiteUrl(): string {
-  const raw = (process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL)?.trim()
+  // First non-blank wins, so a variable that exists but is empty never masks the other.
+  const raw = [process.env.SITE_URL, process.env.NEXT_PUBLIC_SITE_URL]
+    .map((value) => value?.trim())
+    .find(Boolean)
   if (!raw) return DEFAULT_SITE_URL
 
   // Tolerate a bare host ("hereandmore.com"), which is the usual way this is mistyped.
