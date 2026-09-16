@@ -1,0 +1,22 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Landing page" },
+    { "id": "page-2", "name": "System & other templates" }
+  ],
+  "artboards": [
+    { "file": "Main.dc.html", "title": "01 — Hero (real painted artwork)", "x": 0, "y": 0, "w": 1440, "h": 1280, "page": "page-1" },
+    { "file": "Journey.dc.html", "title": "02 — The seven steps & the big idea", "x": 1560, "y": 0, "w": 1440, "h": 2600, "page": "page-1" },
+    { "file": "Earth.dc.html", "title": "03 — Earth finale (WebGL render)", "x": 3120, "y": 0, "w": 1440, "h": 860, "page": "page-1" },
+    { "file": "MobileHome.dc.html", "title": "Landing — 390px", "x": 3120, "y": 980, "w": 390, "h": 980, "page": "page-1" },
+    { "file": "Tokens.dc.html", "title": "Design system", "x": 0, "y": 0, "w": 1060, "h": 1420, "page": "page-2" },
+    { "file": "Comparison.dc.html", "title": "Comparison template", "x": 1180, "y": 0, "w": 1440, "h": 1620, "page": "page-2" },
+    { "file": "MobilePricing.dc.html", "title": "Pricing — 390px", "x": 2740, "y": 0, "w": 390, "h": 1240, "page": "page-2" }
+  ],
+  "annotations": [
+    { "id": "story-note", "x": 0, "y": -210, "w": 440, "text": "The page is one story: idea → plan → build → improve → launch → distribute → customers. The hero states the promise, the answer block restates it for a crawler in 55 words, and the seven steps carry it. No step is a feature list.", "page": "page-1" },
+    { "id": "motion-note", "x": 1560, "y": -210, "w": 440, "text": "Motion: the hero rises in reading order, each step reveals with its dot filling as it enters view, and the chain draws left to right. One IntersectionObserver for the whole page, and everything is visible immediately under prefers-reduced-motion.", "page": "page-1" },
+    { "id": "plant-note", "x": 3120, "y": -210, "w": 440, "text": "These two frames are screenshots of the live site, not mockups. The plant is painted dab by dab on canvas with a brush engine; the Earth is a WebGL fragment shader. Both hold 60fps at 1440px and 390px.", "page": "page-1" },
+    { "id": "tokens-note", "x": 0, "y": -150, "w": 440, "text": "Bodoni Moda for display only — below about 20px a Didone goes spindly, so smaller headings use Instrument Sans. Ember #8a5620 and subtle text #635a4d both clear WCAG AA on ivory.", "page": "page-2" }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

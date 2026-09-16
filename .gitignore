@@ -1,0 +1,18 @@
+node_modules
+.next
+out
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# Secrets. .env.example is the tracked template; every real one stays local.
+.env
+.env.*
+!.env.example
+
+# Seeded design-canvas output (regenerate with scripts in design-canvas/README.md)
+design-canvas/here-design-system.html
+
+# Design canvas build outputs (regenerate from the .dc.html sources)
+design-canvas/*.jpg
+design-canvas/*.png
